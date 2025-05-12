@@ -45,6 +45,10 @@ ggplot(result, aes(time, C))+
   theme_minimal()
 ```
 
+## Graph Explanation
+
+The forest begins to grow slowly, but then accelerates once it reaches a threshold around 170 years. This information is important when thinking about forest management, and that harvesting any sort of trees and/or protection from environmental disturbances, such as wildfire, should be emphasized in the first 170 years. 
+
 ## Run a Sobol Sensitivity Analysis
 ```{r}
 # Create two independent parameter sets
@@ -120,4 +124,7 @@ ggplot() +
        y = "Maximum Forest Size (C)")+
   theme_minimal()
 ```
+
+## Explanation of Results
+The forest model shows variability in maximum size, generally ranging from ~165 to 200. Extreme values, such as <140 or >230, are possible, highlighting its sensitivity to the parameter inputs. This information is important to prioritize adaptive management and facilite further ecological research into reducing uncertainty for the parameters, such as with the disturbance threshold.
 

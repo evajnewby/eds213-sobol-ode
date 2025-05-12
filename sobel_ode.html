@@ -146,6 +146,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </section>
+<section id="graph-explanation" class="level2">
+<h2 class="anchored" data-anchor-id="graph-explanation">Graph Explanation</h2>
+<p>The forest begins to grow slowly, but then accelerates once it reaches a threshold around 170 years. This information is important when thinking about forest management, and that harvesting any sort of trees and/or protection from environmental disturbances, such as wildfire, should be emphasized in the first 170 years.</p>
+</section>
 <section id="run-a-sobol-sensitivity-analysis" class="level2">
 <h2 class="anchored" data-anchor-id="run-a-sobol-sensitivity-analysis">Run a Sobol Sensitivity Analysis</h2>
 <div class="cell">
@@ -208,7 +212,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sens_C<span class="sc">$</span>S<span class="sc">$</span>original)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.38554008 0.34214012 0.20003275 0.07857197</code></pre>
+<pre><code>[1] 0.34090126 0.36317148 0.21918280 0.03900155</code></pre>
 </div>
 <div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(<span class="st">"Total-effect Sobol indices (T):"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
@@ -216,7 +220,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 <div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">print</span>(sens_C<span class="sc">$</span>T<span class="sc">$</span>original)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output cell-output-stdout">
-<pre><code>[1] 0.38559298 0.35686986 0.20751291 0.06198228</code></pre>
+<pre><code>[1] 0.36866770 0.37906763 0.21219663 0.06306839</code></pre>
 </div>
 </div>
 </section>
@@ -241,6 +245,10 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 </div>
 </div>
 </div>
+</section>
+<section id="explanation-of-results" class="level2">
+<h2 class="anchored" data-anchor-id="explanation-of-results">Explanation of Results</h2>
+<p>The forest model shows variability in maximum size, generally ranging from ~165 to 200. Extreme values, such as &lt;140 or &gt;230, are possible, highlighting its sensitivity to the parameter inputs. This information is important to prioritize adaptive management and facilite further ecological research into reducing uncertainty for the parameters, such as with the disturbance threshold.</p>
 </section>
 
 </main>
