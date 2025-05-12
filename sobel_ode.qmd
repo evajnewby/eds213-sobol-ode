@@ -1,0 +1,52 @@
+---
+title: "Sobel with an ODC"
+author: "Eva Newby"
+format: html
+editor_options: 
+  chunk_output_type: console
+execute: 
+  warning: false
+  message: false
+---
+
+```{r}
+# Load packages
+library(tidyverse)
+library(deSolve)
+library(sensitivity)
+library(here)
+```
+
+```{r}
+# Get forest growth function
+source(here("forest_growth.R"))
+```
+
+## Run the model for 300 years
+```{r}
+# ODE needs ALL parameters in a single list
+# initial population and times for which we want output
+Cinitial <- c(C = 10)
+
+# gets results for 300 years (evaluating every year)
+simtimes <- seq(from = 1, to = 300)
+parms <- list(r = 0.01, K = 250, g = 2, thresh = 50)
+
+result <- ode(y = Cinitial, time = simtimes, func = dforestgrowth, parms = parms)
+result <- as.data.frame(result)
+```
+
+## Graph results for 300 years
+```{r}
+ggplot(result, aes(time, C))+
+  geom_line() +
+  geom_hline(yintercept = 50, col = "cyan") +
+  labs(y = "Forest Size (C)", x = "Time (years)", title = "Forest Growth Model over 300 years")+
+  theme_minimal()
+```
+
+## Run a Sobol Sensitivity Analysis
+```{r}
+
+```
+
