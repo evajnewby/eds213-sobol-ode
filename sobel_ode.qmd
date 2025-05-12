@@ -18,7 +18,7 @@ library(here)
 ```
 
 ```{r}
-# Get forest growth function
+# read in forest growth function
 source(here("forest_growth.R"))
 ```
 
@@ -47,6 +47,77 @@ ggplot(result, aes(time, C))+
 
 ## Run a Sobol Sensitivity Analysis
 ```{r}
+# Create two independent parameter sets
+# first one
+np <- 2000
+K <- rnorm(mean = 250, sd = 25, n = np)
+r <- rnorm(mean = 0.01, sd = 0.001, n = np)
+g <- rnorm(mean = 2, sd =0.2 , n = np)
+thresh <- rnorm(mean = 50, sd = 5, n = np)
 
+X1 <- cbind.data.frame(r = r, K = K, g = g, thresh = thresh)
+
+# second set
+K <- rnorm(mean = 250, sd = 25, n = np)
+r <- rnorm(mean = 0.01, sd = 0.001, n = np)
+g <- rnorm(mean = 2, sd =0.2 , n = np)
+thresh <- rnorm(mean = 50, sd = 5, n = np)
+
+X2 <- cbind.data.frame(r = r, K = K, g = g, thresh = thresh)
+
+# Fix any negative values
+X1 <- X1 %>% map_df(pmax, 0.0)
+X2 <- X2 %>% map_df(pmax, 0.0)
+
+# Set up sobol saltelli sampling
+sens_C <- sobolSalt(model = NULL, 
+                    X1, 
+                    X2, 
+                    nboot = 300) # bootstrapping for confidence interval estimation
+
+# define and add names
+colnames(sens_C$X) <- c("r", "K", "g", "thresh")
+
+# Define ODE model evaluation function
+# returns the maximum forest size
+max_C <- function(params) {
+  parms <- list(
+    r = params[1],
+    K = params[2],
+    g = params[3],
+    thresh = params[4]
+  )
+  Cinitial <- c(C = 10)
+  simtimes <- seq(from = 1, to = 300)
+  result <- ode(y = Cinitial, time = simtimes, func = dforestgrowth, parms = parms)
+  result <- as.data.frame(result)
+  return(max(result$C))
+}
+
+# Run model on parameter samples
+y <- apply(sens_C$X, 1, max_C)
+
+# Compute and print sobol indices
+sens_C <- tell(sens_C, y)
+
+print("First-order Sobol indices (S):")
+print(sens_C$S$original)
+
+print("Total-effect Sobol indices (T):")
+print(sens_C$T$original)
+```
+
+## Graph Box Plot of Maximum Forest Size
+```{r}
+# Get maximum forest size values (max values of c from each ODE run)
+max_forest <- sens_C$y
+
+# Box plot of max forest size with varied parameters
+ggplot() + 
+  geom_boxplot(aes(y = max_forest, x = ""),
+               fill = "cyan", color = "black", outlier.color = "red", outlier.shape = 16) +
+  labs(title = "Maximum Forest Size Sensitivity Analysis",
+       y = "Maximum Forest Size (C)")+
+  theme_minimal()
 ```
 
