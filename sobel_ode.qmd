@@ -2,6 +2,7 @@
 title: "Sobel with an ODC"
 author: "Eva Newby"
 format: html
+embed-resources: true
 editor_options: 
   chunk_output_type: console
 execute: 
